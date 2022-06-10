@@ -4,13 +4,34 @@
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+from win_form import StandForm
+from tkinter import *
+from record import Record
+from port import Port
+
+def main():
+
+    main_window = Tk()
+    main_window.title("Стенд испытания шасси")
+    #window.geometry('310x300')
+    stand = StandForm(main_window)
+    #print('Check')
+
+    def update_loop():
+        if Port.connected_status:
+            if not Record.recording_status:
+                print('Not recording')
+                income = Port.read_command()
+                print(income)
+            print('Update!')
+            #income = stand.new_port.read_command()
+
+        main_window.after(5, update_loop)  # run again after 5ms
+
+    main_window.after(5, update_loop)  # run first time after 5ms
+
+    main_window.mainloop()
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    main()
