@@ -17,7 +17,7 @@ class Commands:
                 return True
             else:
                 return False
-        except:
+        except AttributeError:
             return False
 
     @staticmethod

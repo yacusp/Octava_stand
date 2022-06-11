@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 class Demo:
     demo_running_status = False
     demo_lines_limit = 200
+    demo_timeout = 5000
 
     @staticmethod
     def start_demo():
@@ -77,6 +78,10 @@ class Demo:
                     if counter >= Demo.demo_lines_limit:
                         print('Demo stopped by line limit')
                         Demo.demo_running_status = False
+
+                if Support.current_milli_time() - start_time > Demo.demo_timeout and counter == 0:
+                    print('Record stopped. Timeout.')
+                    Demo.demo_running_status = False
 
             plt.ioff()
             plt.show()

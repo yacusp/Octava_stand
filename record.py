@@ -7,6 +7,7 @@ class Record:
     recording_status = False
     result_file_name = 'test_con.txt'
     record_limit = 200  # limit of lines to record
+    record_timeout = 5000
 
     @staticmethod
     def start_record():
@@ -31,5 +32,9 @@ class Record:
                         result_file.write(result_str)
                         counter += 1
                         if counter >= Record.record_limit:
-                            print('Record stopped')
+                            print('Record stopped. Lines limit reached.')
                             Record.recording_status = False
+
+                    if Support.current_milli_time() - start_time > Record.record_timeout and counter == 0:
+                        print('Record stopped. Timeout.')
+                        Record.recording_status = False
