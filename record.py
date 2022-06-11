@@ -1,24 +1,35 @@
 import time
+from port import Port
+from commands import Commands, Support
+
 
 class Record:
     recording_status = False
     result_file_name = 'test_con.txt'
-    record_limit = 200
+    record_limit = 200  # limit of lines to record
 
     @staticmethod
     def start_record():
-        Record.recording_status = True
-        counter = 0
-        start_time = Record.current_milli_time()
+        if not Port.check_port_open():
+            print('Record not started. No port connection.')
+        else:
+            print('Record started')
+            Port.send_line(Commands.start_cycle_output)
+            Record.recording_status = True
+            counter = 0
+            start_time = Support.current_milli_time()
+            current_input = ''
 
-        with open(Record.result_file_name, 'a') as result_file:
-            while Record.recording_status:
-
-
-
-
-        result_file = str('result_' + Record.result_file_num + '.txt')
-
-    @staticmethod
-    def current_milli_time():
-        return round(time.time() * 1000)
+            with open(Record.result_file_name, 'w') as result_file:
+                while Record.recording_status:
+                    new_input = Port.read_line()
+                    if Commands.check_if_data(new_input) and new_input != current_input:
+                        current_input = new_input
+                        read2 = new_input.split(' ', 1)
+                        ms = Support.current_milli_time() - start_time
+                        result_str = str(f'{ms} {read2[-1]}\n')
+                        result_file.write(result_str)
+                        counter += 1
+                        if counter >= Record.record_limit:
+                            print('Record stopped')
+                            Record.recording_status = False

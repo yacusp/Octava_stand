@@ -59,15 +59,22 @@ class Port:
         cls.connected_status = False
 
     @classmethod
-    def send_command(cls, command):
+    def send_line(cls, command):
         if cls.connection:
             cls.connection.write(command)
 
     @classmethod
-    def read_command(cls):
+    def read_line(cls):
         if cls.connection.inWaiting() > 0:
             return cls.connection.readline().decode('utf-8')
 
+    @classmethod
+    def check_port_open(cls):
+        if cls.connection.isOpen():
+            return True
+        else:
+            cls.connected_status = False
+            return False
 
 
 

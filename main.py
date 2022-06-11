@@ -7,7 +7,10 @@
 from win_form import StandForm
 from tkinter import *
 from record import Record
+from demo import Demo
+from commands import Commands
 from port import Port
+
 
 def main():
 
@@ -18,13 +21,20 @@ def main():
     #print('Check')
 
     def update_loop():
-        if Port.connected_status:
-            if not Record.recording_status:
-                print('Not recording')
-                income = Port.read_command()
-                print(income)
-            print('Update!')
-            #income = stand.new_port.read_command()
+        # check for demo start command
+        if Port.check_port_open():
+            if not Record.recording_status and not Demo.demo_running_status:
+                income = Port.read_line()
+                if income == Commands.start_cycle_income:
+                    print('Income demo start command received')
+                    stand.start_demo_button()
+
+        # update form button status
+        if not Record.recording_status and stand.record_btn_pressed:
+            stand.record_button_restart()
+
+        if not Demo.demo_running_status and stand.demo_btn_pressed:
+            stand.demo_button_restart()
 
         main_window.after(5, update_loop)  # run again after 5ms
 
