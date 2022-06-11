@@ -13,12 +13,12 @@ from port import Port
 
 
 def main():
-
     main_window = Tk()
     main_window.title("Стенд испытания шасси")
-    #window.geometry('310x300')
+    # window.geometry('310x300')
     stand = StandForm(main_window)
-    #print('Check')
+
+    # print('Check')
 
     def update_loop():
         # check for demo start command

@@ -1,6 +1,7 @@
 # commands and list
 import time
 
+
 class Commands:
     gear_up_output = b'50'
     gear_down_output = b'51'

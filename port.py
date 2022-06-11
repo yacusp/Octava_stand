@@ -4,7 +4,6 @@ import serial
 
 
 class Port:
-
     speeds = [115200, 57600, 9600]
     speed = speeds[2]
     port_name = 'COM1'
@@ -13,32 +12,32 @@ class Port:
 
     @staticmethod
     def serial_ports():
-            """ Lists serial port names
+        """ Lists serial port names
 
-                :raises EnvironmentError:
-                    On unsupported or unknown platforms
-                :returns:
-                    A list of the serial ports available on the system
-            """
-            if sys.platform.startswith('win'):
-                ports = ['COM%s' % (i + 1) for i in range(256)]
-            elif sys.platform.startswith('linux') or sys.platform.startswith('cygwin'):
-                # this excludes your current terminal "/dev/tty"
-                ports = glob.glob('/dev/tty[A-Za-z]*')
-            elif sys.platform.startswith('darwin'):
-                ports = glob.glob('/dev/tty.*')
-            else:
-                raise EnvironmentError('Unsupported platform')
+            :raises EnvironmentError:
+                On unsupported or unknown platforms
+            :returns:
+                A list of the serial ports available on the system
+        """
+        if sys.platform.startswith('win'):
+            ports = ['COM%s' % (i + 1) for i in range(256)]
+        elif sys.platform.startswith('linux') or sys.platform.startswith('cygwin'):
+            # this excludes your current terminal "/dev/tty"
+            ports = glob.glob('/dev/tty[A-Za-z]*')
+        elif sys.platform.startswith('darwin'):
+            ports = glob.glob('/dev/tty.*')
+        else:
+            raise EnvironmentError('Unsupported platform')
 
-            result = []
-            for port in ports:
-                try:
-                    s = serial.Serial(port)
-                    s.close()
-                    result.append(port)
-                except (OSError, serial.SerialException):
-                    pass
-            return result
+        result = []
+        for port in ports:
+            try:
+                s = serial.Serial(port)
+                s.close()
+                result.append(port)
+            except (OSError, serial.SerialException):
+                pass
+        return result
 
     @classmethod
     def set_speed(cls, new_speed):
@@ -75,6 +74,3 @@ class Port:
         else:
             cls.connected_status = False
             return False
-
-
-

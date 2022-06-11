@@ -49,7 +49,7 @@ class StandForm:
         self.demo_btn.grid(row=5, column=1, padx=20, pady=10)
         self.demo_btn_pressed = False
 
-        #self.new_port = Port(self.port_combo.get(), self.speed_combo.get())
+        # self.new_port = Port(self.port_combo.get(), self.speed_combo.get())
 
     def connect_button(self):
         print('Connect button clicked!')
@@ -73,7 +73,6 @@ class StandForm:
         else:
             Port.send_line(Commands.gear_up_output)
 
-
     @staticmethod
     def gear_down_button():
         print('Gear down button clicked!')
@@ -81,7 +80,6 @@ class StandForm:
             print('Gear down command was not send. No port connection')
         else:
             Port.send_line(Commands.gear_down_output)
-
 
     def start_record_button(self):
         print('Start record button clicked!')
@@ -121,9 +119,9 @@ class StandForm:
 def main():
     window = Tk()
     window.title("Стенд испытания шасси")
-    #window.geometry('310x300')
+    # window.geometry('310x300')
     app = StandForm(window)
-    #print('Check')
+    # print('Check')
     window.mainloop()
 
 
