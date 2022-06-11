@@ -6,8 +6,8 @@ from commands import Commands, Support
 class Record:
     recording_status = False
     result_file_name = 'test_con.txt'
-    record_limit = 200  # limit of lines to record
-    record_timeout = 5000
+    record_limit = Commands.lines_limit  # limit of lines to record
+    record_timeout = Commands.timeout_ms
 
     @staticmethod
     def start_record():
@@ -24,7 +24,10 @@ class Record:
             with open(Record.result_file_name, 'w') as result_file:
                 while Record.recording_status:
                     new_input = Port.read_line()
-                    if Commands.check_if_data(new_input) and new_input != current_input:
+                    if new_input == Commands.stop_cycle_income:
+                        print('Record stopped by income signal')
+                        Record.recording_status = False
+                    elif Commands.check_if_data(new_input) and new_input != current_input:
                         current_input = new_input
                         read2 = new_input.split(' ', 1)
                         ms = Support.current_milli_time() - start_time

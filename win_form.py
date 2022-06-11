@@ -36,15 +36,18 @@ class StandForm:
         self.frame1 = Frame(win, height=40)
         self.frame1.grid(row=3)
 
+        # Gear down and gear up buttons
         self.low_btn = Button(win, text="Опустить", width=15, height=1, command=self.gear_down_button)
         self.low_btn.grid(row=4, column=0, padx=20, pady=10)
         self.up_btn = Button(win, text="Поднять", width=15, height=1, command=self.gear_up_button)
         self.up_btn.grid(row=4, column=1, padx=20, pady=10)
 
+        # Record start button
         self.record_btn = Button(win, text="Записать", width=15, height=1, command=self.start_record_button)
         self.record_btn.grid(row=5, column=0, padx=20, pady=10)
         self.record_btn_pressed = False
 
+        # Demo start button
         self.demo_btn = Button(win, text="Демо", width=15, height=1, command=self.start_demo_button)
         self.demo_btn.grid(row=5, column=1, padx=20, pady=10)
         self.demo_btn_pressed = False

@@ -8,6 +8,8 @@ class Commands:
     start_cycle_output = b'2345'
     start_cycle_income = ' button triggered'
     stop_cycle_income = 'cycle end'
+    lines_limit = 200
+    timeout_ms = 5000
 
     @staticmethod
     def check_if_data(input_command):

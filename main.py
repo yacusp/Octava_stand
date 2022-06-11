@@ -29,7 +29,7 @@ def main():
                     print('Income demo start command received')
                     stand.start_demo_button()
 
-        # update form button status
+        # update form buttons status
         if not Record.recording_status and stand.record_btn_pressed:
             stand.record_button_restart()
 

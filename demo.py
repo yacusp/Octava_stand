@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 
 class Demo:
     demo_running_status = False
-    demo_lines_limit = 200
-    demo_timeout = 5000
+    demo_lines_limit = Commands.lines_limit
+    demo_timeout = Commands.timeout_ms
 
     @staticmethod
     def start_demo():
