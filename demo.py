@@ -1,6 +1,8 @@
 from port import Port
 from commands import Commands, Support
 import matplotlib.pyplot as plt
+import sys
+import time
 
 
 class Demo:
@@ -78,6 +80,10 @@ class Demo:
                     if counter >= Demo.demo_lines_limit:
                         print('Demo stopped by line limit')
                         Demo.demo_running_status = False
+
+                        plt.savefig('charta.png')
+                        time.sleep(3)
+                        sys.exit()
 
                 if Support.current_milli_time() - start_time > Demo.demo_timeout and counter == 0:
                     print('Record stopped. Timeout.')
