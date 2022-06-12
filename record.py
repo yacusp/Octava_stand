@@ -1,4 +1,3 @@
-import time
 from port import Port
 from commands import Commands, Support
 

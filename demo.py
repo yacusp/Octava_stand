@@ -9,6 +9,7 @@ class Demo:
     demo_running_status = False
     demo_lines_limit = Commands.lines_limit
     demo_timeout = Commands.timeout_ms
+    picture_num = 0
 
     @staticmethod
     def start_demo():
@@ -80,8 +81,9 @@ class Demo:
                     if counter >= Demo.demo_lines_limit:
                         print('Demo stopped by line limit')
                         Demo.demo_running_status = False
-
-                        plt.savefig('charta.png')
+                        picture_name = str(f'charta_{Demo.picture_num}.png')
+                        Demo.picture_num += 1
+                        plt.savefig(picture_name)
                         time.sleep(3)
                         sys.exit()
 
