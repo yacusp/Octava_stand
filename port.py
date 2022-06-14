@@ -69,7 +69,7 @@ class Port:
     @classmethod
     def read_line(cls):
         if cls.connection.inWaiting() > 0:
-            return cls.connection.readline().decode('utf-8').strip()
+            return cls.connection.readline().decode('utf-8')
 
     @classmethod
     def check_port_open(cls):
