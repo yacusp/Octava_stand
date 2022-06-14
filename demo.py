@@ -84,8 +84,8 @@ class Demo:
                         picture_name = str(f'charta_{Demo.picture_num}.png')
                         Demo.picture_num += 1
                         plt.savefig(picture_name)
-                        time.sleep(3)
-                        sys.exit()
+                        #time.sleep(3)
+                        #sys.exit()
 
                 if Support.current_milli_time() - start_time > Demo.demo_timeout and counter == 0:
                     print('Record stopped. Timeout.')

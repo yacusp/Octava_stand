@@ -5,7 +5,7 @@ import serial
 
 class Port:
     speeds = [115200, 57600, 9600]
-    speed = speeds[2]
+    speed = speeds[0]
     port_name = 'COM1'
     connection = serial.Serial()
     connected_status = False
@@ -37,7 +37,11 @@ class Port:
                 result.append(port)
             except (OSError, serial.SerialException):
                 pass
-        return result
+        if len(result) > 0:
+            return result
+        else:
+            return [0]
+
 
     @classmethod
     def set_speed(cls, new_speed):
