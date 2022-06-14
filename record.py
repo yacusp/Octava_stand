@@ -28,9 +28,10 @@ class Record:
                         Record.recording_status = False
                     elif Commands.check_if_data(new_input) and new_input != current_input:
                         current_input = new_input
-                        read2 = new_input.split(' ', 1)
+                        input_list = new_input.split(' ', 1)
+                        data = input_list[-1].strip()
                         ms = Support.current_milli_time() - start_time
-                        result_str = str(f'{ms} {read2[-1]}\n')
+                        result_str = str(f'{ms} {data}\n')
                         result_file.write(result_str)
                         counter += 1
                         if counter >= Record.record_limit:

@@ -21,7 +21,7 @@ class StandForm:
         self.port_combo.grid(row=1, column=0)
         self.speed_combo = Combobox(win, width=15, height=1)
         self.speed_combo['values'] = Port.speeds
-        self.speed_combo.current(2)  # установите вариант по умолчанию
+        self.speed_combo.current(0)  # установите вариант по умолчанию
         self.speed_combo.grid(row=1, column=1)
 
         # connecting button
