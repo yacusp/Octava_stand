@@ -1,6 +1,8 @@
 from port import Port
 from commands import Commands, Support
+from graph import StandGraph
 import matplotlib.pyplot as plt
+
 import sys
 import time
 
@@ -22,14 +24,12 @@ class Demo:
             Demo.demo_running_status = True
             counter = 0
             start_time = Support.current_milli_time()
+            current_time = Support.current_milli_time()
+            first_record = True
             current_input = ''
 
-            # graphics variables
-            x_list = []
-            y_list = []
-            yy_list = []
-            yyy_list = []
-            plt.ion()
+            # graph creating
+            demo_graph = StandGraph()
 
             while Demo.demo_running_status:
                 new_input = Port.read_line()
@@ -38,58 +38,41 @@ class Demo:
                     Demo.demo_running_status = False
 
                 elif Commands.check_if_data(new_input) and new_input != current_input:
+                    if first_record:
+                        first_record = False
+                        start_time = Support.current_milli_time()
+                        demo_graph.start_animation()
+
+                    # getting data from port
                     current_input = new_input
                     read2 = new_input.split(' ', 1)
-                    ms = Support.current_milli_time() - start_time
+                    current_time = Support.current_milli_time()
+                    ms = current_time - start_time
                     result_str = str(f'{ms} {read2[-1]}\n')
+                    data_list = result_str.split()
 
-                    x = float(result_str.split()[0])
-                    y = float(result_str.split()[4])
-                    y0 = float(result_str.split()[5])
-                    y1 = float(result_str.split()[6])
-                    print(x)
-                    print(y)
-                    print(y0)
-                    print(y1)
-                    x_list.append(x)
-                    y_list.append(y)
-                    yy_list.append(y0)
-                    yyy_list.append(y1)
-                    plt.plot(x_list, y_list, color='green')
-                    plt.plot(x_list, yy_list, color='red')
-                    plt.plot(x_list, yyy_list, color='blue')
-
-                    # plt.scatter(x, y, c = 'r')
-                    # plt.scatter(x, y0 ,c = 'g')
-                    # plt.scatter(x, y1, c = 'b')
-
-                    plt.title('Pressure')
-                    plt.xlabel('time ms')
-                    plt.ylabel('bar')
-                    # plt.subplot(311)
-                    plt.plot(x, y, color='blue', label="cosine")
-                    # plt.subplot(312)
-                    # plt.plot(x ,y0)
-                    # plt.subplot(313)
-                    # plt.plot(x ,y1)
-                    plt.grid(True)
-                    plt.pause(0.001)
-                    plt.draw()
+                    # graph update
+                    demo_graph.update_data(data_list)
+                    demo_graph.update_graphic()
 
                     counter += 1
 
+                    # stop cycle by line limit
                     if counter >= Demo.demo_lines_limit:
+                        picture_name = str(f'demo_charta_{Demo.picture_num}.png')
+                        Demo.picture_num += 1
+                        demo_graph.finish_data(picture_name, Commands.graph_show_time)
+                        demo_graph.finish_animation()
                         print('Demo stopped by line limit')
                         Demo.demo_running_status = False
-                        picture_name = str(f'charta_{Demo.picture_num}.png')
+
+                # stop cycle by timeout
+                if Support.current_milli_time() - current_time > Demo.demo_timeout:
+                    if counter > 0:
+                        picture_name = str(f'demo_charta_{Demo.picture_num}.png')
                         Demo.picture_num += 1
-                        plt.savefig(picture_name)
-                        #time.sleep(3)
-                        #sys.exit()
-
-                if Support.current_milli_time() - start_time > Demo.demo_timeout and counter == 0:
-                    print('Record stopped. Timeout.')
+                        demo_graph.finish_data(picture_name, Commands.graph_show_time)
+                        demo_graph.finish_animation()
+                        print('Demo stopped by line limit')
+                    print('Demo stopped. Timeout.')
                     Demo.demo_running_status = False
-
-            plt.ioff()
-            plt.show()

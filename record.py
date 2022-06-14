@@ -1,5 +1,6 @@
 from port import Port
 from commands import Commands, Support
+from graph import StandGraph
 
 
 class Record:
@@ -18,7 +19,11 @@ class Record:
             Record.recording_status = True
             counter = 0
             start_time = Support.current_milli_time()
+            current_time = Support.current_milli_time()
+            first_record = True
             current_input = ''
+
+            record_graph = StandGraph()
 
             with open(Record.result_file_name, 'w') as result_file:
                 while Record.recording_status:
@@ -27,17 +32,36 @@ class Record:
                         print('Record stopped by income signal')
                         Record.recording_status = False
                     elif Commands.check_if_data(new_input) and new_input != current_input:
+                        if first_record:
+                            first_record = False
+                            start_time = Support.current_milli_time()
+
+                        # getting data from part
                         current_input = new_input
+                        current_time = Support.current_milli_time()
                         input_list = new_input.split(' ', 1)
                         data = input_list[-1].strip()
                         ms = Support.current_milli_time() - start_time
                         result_str = str(f'{ms} {data}\n')
+
+                        # saving data to file
                         result_file.write(result_str)
+
+                        # updating graph
+                        data_list = result_str.split()
+                        record_graph.update_data(data_list)
+
                         counter += 1
+
+                        # stop cycle by line limit
                         if counter >= Record.record_limit:
+                            record_graph.finish_data('record_graph.png', 0)
                             print('Record stopped. Lines limit reached.')
                             Record.recording_status = False
 
-                    if Support.current_milli_time() - start_time > Record.record_timeout and counter == 0:
+                    # stop cycle by timeout
+                    if Support.current_milli_time() - current_time > Record.record_timeout:
+                        if counter > 0:
+                            record_graph.finish_data('record_graph.png', 0)
                         print('Record stopped. Timeout.')
                         Record.recording_status = False

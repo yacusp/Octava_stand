@@ -11,6 +11,7 @@ class Commands:
     stop_cycle_income = 'cycle end'
     lines_limit = 200
     timeout_ms = 5000
+    graph_show_time = 5  # in seconds
 
     @staticmethod
     def check_if_data(input_command):
