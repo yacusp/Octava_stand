@@ -7,7 +7,7 @@ class Commands:
     gear_up_output = b'50'
     gear_down_output = b'51'
     start_cycle_output = b'2345'
-    start_cycle_income = ' button triggered'
+    start_cycle_income = 'button triggered'
     stop_cycle_income = 'cycle end'
     lines_limit = 200
     timeout_ms = 5000

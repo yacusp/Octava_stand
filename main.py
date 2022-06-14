@@ -20,7 +20,7 @@ def main():
         if Port.check_port_open():
             if not Record.recording_status and not Demo.demo_running_status:
                 income = Port.read_line()
-                if income == Commands.start_cycle_income:
+                if income.strip() == Commands.start_cycle_income:
                     print('Income demo start command received')
                     stand.start_demo_button()
         # update form buttons status

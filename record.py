@@ -23,7 +23,7 @@ class Record:
             with open(Record.result_file_name, 'w') as result_file:
                 while Record.recording_status:
                     new_input = Port.read_line()
-                    if new_input == Commands.stop_cycle_income:
+                    if new_input.strip() == Commands.stop_cycle_income:
                         print('Record stopped by income signal')
                         Record.recording_status = False
                     elif Commands.check_if_data(new_input) and new_input != current_input:

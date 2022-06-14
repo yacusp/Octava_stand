@@ -33,7 +33,7 @@ class Demo:
 
             while Demo.demo_running_status:
                 new_input = Port.read_line()
-                if new_input == Commands.stop_cycle_income:
+                if new_input.strip() == Commands.stop_cycle_income:
                     print('Demo stopped by income signal')
                     Demo.demo_running_status = False
 
