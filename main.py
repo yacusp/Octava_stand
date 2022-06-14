@@ -9,7 +9,7 @@ from port import Port
 
 def main():
     main_window = Tk()
-    main_window.title("Стенд испытания шасси")
+    main_window.title(f"{Commands.version_num} Стенд испытания шасси с демо")
     # window.geometry('310x300')
     stand = StandForm(main_window)
 

@@ -3,6 +3,7 @@ import time
 
 
 class Commands:
+    version_num = 1406
     gear_up_output = b'50'
     gear_down_output = b'51'
     start_cycle_output = b'2345'
